@@ -45,7 +45,7 @@ public class LobData {
 	    byte[] bytes = bos.toByteArray();
 	    out.close();
 	    
-	    return new org.hsqldb.jdbc.jdbcBlob( bytes );
+	    return new org.hsqldb.jdbc.JDBCBlob( bytes );
 	}
 	
 	public long insert() {
