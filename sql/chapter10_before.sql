@@ -2,10 +2,10 @@ DROP TABLE people IF EXISTS;
 
 CREATE TABLE people (
   id int primary key,
-  first_name varchar,
-  last_name varchar,
-  address varchar,
-  city varchar,
+first_name varchar(255),
+  last_name varchar(255),
+  address varchar(255),
+  city varchar(255),
   state varchar(2),
   zip_code varchar(10)
 );
