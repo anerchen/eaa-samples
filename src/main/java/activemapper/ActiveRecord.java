@@ -20,7 +20,7 @@ public abstract class ActiveRecord {
 	private static final long NEW_OBJECT = -1;
 	private static final String ID_COLUMN = "ID";
 	private static final Character Q_MARK = new Character('?');
-	private long id;
+	protected long id;
 	
 	private static Map<Class<? extends ActiveRecord>, ClassMapCache> classMappings =
 		Collections.synchronizedMap( 

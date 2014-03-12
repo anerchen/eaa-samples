@@ -2,50 +2,48 @@ package eaa.chapter9.domainmodel;
 
 public class Plan {
 
-	private long id;
-	private double purchaseRequirement;
-	private double rewardGallons;
-	
-	public Plan( long id, double purchaseRequirement, double rewardGallons ) {
-		this.id = id;
-		this.purchaseRequirement = purchaseRequirement;
-		this.rewardGallons = rewardGallons;
-	}
-	
-	public Plan( double purchaseRequirement, double rewardGallons ) {
-		this( -1, purchaseRequirement, rewardGallons );
-	}
-	
-	public double calculateNewReward( double totalGallonsPurchased, double rewardGallonsRedeemed ) {
-		double newEarnedReward = Math.floor(totalGallonsPurchased / purchaseRequirement)
-        							* rewardGallons 
-        							- rewardGallonsRedeemed;
-		return newEarnedReward;
-	}
-	
+  private long id;
+  private double purchaseRequirement;
+  private double rewardGallons;
 
-	public long getId() {
-		return id;
-	}
+  public Plan(long id, double purchaseRequirement, double rewardGallons) {
+    this.id = id;
+    this.purchaseRequirement = purchaseRequirement;
+    this.rewardGallons = rewardGallons;
+  }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+  public Plan(double purchaseRequirement, double rewardGallons) {
+    this(-1, purchaseRequirement, rewardGallons);
+  }
 
-	public double getPurchaseRequirement() {
-		return purchaseRequirement;
-	}
+  public double calculateNewReward(double totalGallonsPurchased, double rewardGallonsRedeemed) {
+    double newEarnedReward = Math.floor(totalGallonsPurchased / purchaseRequirement)
+        * rewardGallons - rewardGallonsRedeemed;
+    return newEarnedReward;
+  }
 
-	public void setPurchaseRequirement(double purchaseRequirement) {
-		this.purchaseRequirement = purchaseRequirement;
-	}
+  public long getId() {
+    return id;
+  }
 
-	public double getRewardGallons() {
-		return rewardGallons;
-	}
+  public void setId(long id) {
+    this.id = id;
+  }
 
-	public void setRewardGallons(double rewardGallons) {
-		this.rewardGallons = rewardGallons;
-	}
-	
+  public double getPurchaseRequirement() {
+    return purchaseRequirement;
+  }
+
+  public void setPurchaseRequirement(double purchaseRequirement) {
+    this.purchaseRequirement = purchaseRequirement;
+  }
+
+  public double getRewardGallons() {
+    return rewardGallons;
+  }
+
+  public void setRewardGallons(double rewardGallons) {
+    this.rewardGallons = rewardGallons;
+  }
+
 }

@@ -4,54 +4,52 @@ import java.util.Date;
 
 public class Reward implements Comparable<Reward> {
 
-	private long id;
-	private double gallons;
-	private Date createdAt;
-	private Person person;
-	
-	public Reward( double gallons, Person person ) {
-		this.id = -1;
-		this.gallons = gallons;
-		this.createdAt = new Date();
-		this.person = person;
-	}	
+  private long id;
+  private double gallons;
+  private Date createdAt;
+  private Person person;
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+  public Reward(double gallons, Person person) {
+    this.id = -1;
+    this.gallons = gallons;
+    this.createdAt = new Date();
+    this.person = person;
+  }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-	public double getGallons() {
-		return gallons;
-	}
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	public void setGallons(double gallons) {
-		this.gallons = gallons;
-	}
+  public double getGallons() {
+    return gallons;
+  }
 
-	public long getId() {
-		return id;
-	}
+  public void setGallons(double gallons) {
+    this.gallons = gallons;
+  }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+  public long getId() {
+    return id;
+  }
 
-	public Person getPerson() {
-		return person;
-	}
+  public void setId(long id) {
+    this.id = id;
+  }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+  public Person getPerson() {
+    return person;
+  }
 
-	public int compareTo(Reward arg0) {
-		return this.createdAt.compareTo( arg0.createdAt );
-	}
-	
-	
-	
+  public void setPerson(Person person) {
+    this.person = person;
+  }
+
+  public int compareTo(Reward arg0) {
+    return this.createdAt.compareTo(arg0.createdAt);
+  }
+
 }

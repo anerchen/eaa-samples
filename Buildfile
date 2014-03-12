@@ -66,4 +66,24 @@ define 'eaa' do
   task :ch09_dm => :compile do
     system "java -cp #{getClasspath} eaa.chapter9.domainmodel.DomainModel"
   end
+  
+  task :ch10_tdg => :compile do
+    runSql('sql/chapter10_before.sql');
+    system "java -cp #{getClasspath} eaa.chapter10.tabledatagateway.TableDataGateway"
+  end
+	
+  task :ch10_rdg => :compile do
+    runSql('sql/chapter10_before.sql');
+    system "java -cp #{getClasspath} eaa.chapter10.rowdatagateway.RowDataGateway"
+  end
+	
+  task :ch10_ar => :compile do
+    runSql('sql/chapter10_before.sql');
+    system "java -cp #{getClasspath} eaa.chapter10.activerecord.ActiveRecord"
+  end
+	
+  task :ch10_dm => :compile do
+    runSql('sql/chapter10_before.sql');
+    system "java -cp #{getClasspath} eaa.chapter10.datamapper.DataMapper"
+  end  
 end

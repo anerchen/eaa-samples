@@ -4,75 +4,73 @@ import java.util.Date;
 
 public class Purchase implements Comparable<Purchase> {
 
-	private long id;
-	private double gallons;
-	private double rewardApplied;
-	private Date createdAt;
-	private Person person;
-	
-	public Purchase( long id, double gallons, double rewardApplied ) {
-		this.id = id;
-		this.gallons = gallons;
-		this.rewardApplied = rewardApplied;
-		this.createdAt = new Date();
-	}
-	
-	public double getFueledGallons() {
-		return gallons + rewardApplied;
-	}
-	
-	public Purchase( double gallons, double rewardApplied ) {
-		this( -1, gallons, rewardApplied );
-	}
-	
-	public Purchase( double gallons ) {
-		this( gallons, 0.0 );
-	}
+  private long id;
+  private double gallons;
+  private double rewardApplied;
+  private Date createdAt;
+  private Person person;
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+  public Purchase(long id, double gallons, double rewardApplied) {
+    this.id = id;
+    this.gallons = gallons;
+    this.rewardApplied = rewardApplied;
+    this.createdAt = new Date();
+  }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+  public double getFueledGallons() {
+    return gallons + rewardApplied;
+  }
 
-	public double getGallons() {
-		return gallons;
-	}
+  public Purchase(double gallons, double rewardApplied) {
+    this(-1, gallons, rewardApplied);
+  }
 
-	public void setGallons(double gallons) {
-		this.gallons = gallons;
-	}
+  public Purchase(double gallons) {
+    this(gallons, 0.0);
+  }
 
-	public long getId() {
-		return id;
-	}
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	public double getRewardApplied() {
-		return rewardApplied;
-	}
+  public double getGallons() {
+    return gallons;
+  }
 
-	public void setRewardApplied(double rewardApplied) {
-		this.rewardApplied = rewardApplied;
-	}
+  public void setGallons(double gallons) {
+    this.gallons = gallons;
+  }
 
-	public Person getPerson() {
-		return person;
-	}
+  public long getId() {
+    return id;
+  }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+  public void setId(long id) {
+    this.id = id;
+  }
 
-	public int compareTo(Purchase arg0) {
-		return this.createdAt.compareTo( arg0.createdAt );
-	}
-	
-	
-	
+  public double getRewardApplied() {
+    return rewardApplied;
+  }
+
+  public void setRewardApplied(double rewardApplied) {
+    this.rewardApplied = rewardApplied;
+  }
+
+  public Person getPerson() {
+    return person;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
+  }
+
+  public int compareTo(Purchase arg0) {
+    return this.createdAt.compareTo(arg0.createdAt);
+  }
+
 }
