@@ -1,0 +1,8 @@
+<classpath>
+  <classpathentry path="src/main/java" excluding="**/.svn/|**/CVS/" kind="src"/>
+  <classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+  <classpathentry path="target/classes" kind="output"/>
+  <classpathentry path="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar" kind="var" javadocpath="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5-javadoc.jar"/>
+  <classpathentry path="M2_REPO/org/hsqldb/hsqldb/2.3.2/hsqldb-2.3.2.jar" sourcepath="M2_REPO/org/hsqldb/hsqldb/2.3.2/hsqldb-2.3.2-sources.jar" kind="var" javadocpath="M2_REPO/org/hsqldb/hsqldb/2.3.2/hsqldb-2.3.2-javadoc.jar"/>
+  <classpathentry path="M2_REPO/org/hsqldb/sqltool/2.3.2/sqltool-2.3.2.jar" sourcepath="M2_REPO/org/hsqldb/sqltool/2.3.2/sqltool-2.3.2-sources.jar" kind="var" javadocpath="M2_REPO/org/hsqldb/sqltool/2.3.2/sqltool-2.3.2-javadoc.jar"/>
+</classpath>
