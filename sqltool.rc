@@ -1,0 +1,5 @@
+
+urlid default
+url jdbc:hsqldb:hsql://localhost/xdb
+username SA
+password
