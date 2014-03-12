@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Enterprise Application Architecture Examples (Miami U.)" default="usage" basedir=".">
+
+	<property name="lib" value="WebContent/WEB-INF/lib" />
+    
+    <property name="destDir" value="WebContent/WEB-INF/classes" />
+    <property name="docDir" value="javadoc" />
+    <property name="srcDir" value="src" />
+	
+	<property name="databaseDir" value="database" />
+    
+    <property name="jarFile" value="eaasamples.jar" />
+	
+	<property name="deployDir" value="tomcat/webapps/eaa" />
+	<property name="contextDir" value="WebContent" />
+    
+    <property name="classpath" value="
+    		./${lib}/hsqldb.jar;
+    	    ./${lib}/javassist.jar" />
+	
+	<path id="jaxws.classpath">
+		<pathelement location="${java.home}/../lib/tools.jar"/>
+		<fileset dir="${lib}">
+	        <include name="*.jar"/>
+	        <exclude name="j2ee.jar"/>
+	    </fileset>
+	</path>
+	
+	
+	<target name="init">
+    	    <mkdir dir="${destDir}" />
+	    <mkdir dir="${docDir}" />
+	</target>
+
+	<target depends="init" name="compile">
+	    <javac debug="true" deprecation="true" destdir="${destDir}" srcdir="${srcDir}">
+	    	    <classpath path="${classpath}" />
+	    </javac>
+	</target>
+	
+    <target depends="init,compile" name="jar">
+        
+		<!-- get the data in place -->
+	    <mkdir dir="${destDir}/META-INF" />
+        
+        <jar basedir="${destDir}" compress="true" jarfile="${jarFile}">
+            <exclude name="**/*.java"/>
+        </jar>
+    </target>
+	
+    <target name="clean" description="Clean all build products.">
+        <delete dir="${destDir}" />
+        <delete dir="${docDir}" />
+        <delete file="${jarFile}" />
+    </target>
+	
+	<target name="start_database" description="Launch HSQLDB Server">
+		<mkdir dir="${databaseDir}" />
+		
+		<java classname="org.hsqldb.Server" fork="yes" spawn="yes">
+	      <classpath path="${classpath}" />
+	      <arg value="-database.0"/>
+	      <arg value="database/db"/>
+	      <arg value="-dbname.0"/>
+	      <arg value="xdb"/>
+	    </java>
+	</target>
+	
+	<target name="stop_database" description="">
+		<sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+			SHUTDOWN;
+		</sql>
+	</target>
+	
+	<target name="database_manager" description="Launch HSQLDB database management GUI">
+	   <java classname="org.hsqldb.util.DatabaseManager" fork="yes" spawn="yes">
+	      <classpath path="${classpath}"/>
+	      <arg value="-driver"/>
+	      <arg value="org.hsqldb.jdbcDriver"/>
+	      <arg value="-url"/>
+	      <arg value="jdbc:hsqldb:hsql://localhost/xdb"/>
+	      <arg value="-user"/>
+	      <arg value="sa"/>
+	   </java>
+	</target>
+	
+
+	
+	<target name="usage">
+		<echo>How to use this file:</echo>
+		<echo>   build      : compile all examples</echo>
+		<echo>   javadoc    : create javadoc for all examples</echo>
+		<echo>   clean      : remove compiled files</echo>
+		<echo>-- </echo>
+		<echo>   start_database : boot HSQLDB</echo>
+		<echo>   stop_database  : stop HSQLDB</echo>
+		<echo>   database_manager : run the HSQLDB manager</echo>
+		<echo>-- </echo>
+		<echo>   ch09_ts    : to run the Chapter 09 transaction script example</echo>
+		<echo>   ch09_dm  : to run the Chapter 09 Domain Model example</echo>
+		<echo>   ch10_tdg  : to run the Chapter 10 Table Data Gateway example</echo>
+		<echo>   ch10_rdg  : to run the Chapter 10 Row Data Gateway example</echo>
+		<echo>   ch10_ar    : to run the Chapter 10 Active Record example</echo>
+		<echo>   ch10_dm  : to run the Chapter 10 Data Mapper example</echo>
+		<echo>   ch11_uow : to run the Chapter 11 Unit of Work example</echo>
+		<echo>   ch11_idm : to run the Chapter 11 Identity Map example</echo>
+		<echo>   ch11_ll  : to run the Chapter 11 Lazy Load example</echo>
+		<echo>   ch12_idf : to run the Chapter 12 Identity Field example</echo>
+		<echo>   ch12_fkm : to run the Chapter 12 Foreign Key Mapping example</echo>
+		<echo>   ch12_atm : to run the Chapter 12 Association Table Mapping example</echo>
+		<echo>   ch12_sti : to run the Chapter 12 Single Table Inheritance example</echo>
+		<echo>   ch12_cti : to run the Chapter 12 Class Table Inheritance example</echo>
+		<echo>   ch13_mdm : to run the Chapter 13 Metadata Mapper example (With Annotations)</echo>
+	    <echo>   ch13_qo : to run the Chapter 13 Query Object example)</echo>
+		<echo>   *** Chapter 14 *** - web based - use eclipse to deploy web module to server </echo>
+		<echo>       **** Be sure to run the target 'ch14_database' before running the examples</echo>
+		<echo>   *** Chapter 15 *** -  web services based - use eclipse to deploy web module to server </echo>
+		<echo>       **** Be sure to run the target 'ch15_database' before running the examples</echo>
+		<echo>       **** Clients can be run using ant targets</echo>
+		<echo>  ch16_ool : to run the Chapter 16 Optimistic Offline Lock example</echo>
+	</target>
+	
+	<target name="ch09_ts" depends="jar" description="Chapter 09 - Transaction Script Example">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+	  	<transaction src="sql/chapter09_before.sql" />
+	  </sql>
+	  <java classname="eaa.chapter9.transactionscript.TransactionScript" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch09_dm" depends="jar" description="Chapter 09 - Domain Model Example">
+	  <java classname="eaa.chapter9.domainmodel.DomainModel" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch10_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter10_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch10_tdg" depends="jar,ch10_database" description="Chapter 10 - Table Data Gateway Example">
+	  <java classname="eaa.chapter10.tabledatagateway.TableDataGateway" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch10_rdg" depends="jar,ch10_database" description="Chapter 10 - Table Data Gateway Example">
+	  <java classname="eaa.chapter10.rowdatagateway.RowDataGateway" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+	
+	<target name="ch10_ar" depends="jar,ch10_database" description="Chapter 10 - Active Record">
+	  <java classname="eaa.chapter10.activerecord.ActiveRecord" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+	
+	<target name="ch10_dm" depends="jar,ch10_database" description="Chapter 10 - Active Record">
+	  <java classname="eaa.chapter10.datamapper.DataMapper" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+  </target>	
+	
+	<target name="ch11_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter11_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch11_uow"  depends="jar,ch11_database" description="Chapter 11- Unit of Work">
+	  <java classname="eaa.chapter11.unitofwork.UnitOfWork" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch11_idm"  depends="jar,ch11_database" description="Chapter 11- Identity Map">
+	  <java classname="eaa.chapter11.identitymap.Main" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+	
+	<target name="ch11_ll"  depends="jar,ch11_database" description="Chapter 11- Lazy Load">
+	  <java classname="eaa.chapter11.lazyload.LazyLoad" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+	
+	<target name="ch12_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter12_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch12_idf"  depends="jar,ch12_database" description="Chapter 12 - Identity Field">
+	  <java classname="eaa.chapter12.identityfield.IdentityField" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+	
+	<target name="ch12_fkm"  depends="jar,ch12_database" description="Chapter 12 - Foreign Key Mapping">
+	  <java classname="eaa.chapter12.foreignkeymapping.ForeignKeyMapping" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+
+	<target name="ch12_atm"  depends="jar,ch12_database" description="Chapter 12 - Association Table Mapping">
+	  <java classname="eaa.chapter12.associationtablemapping.AssociationTableMapping" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>	
+
+	<target name="ch12_lob"  depends="jar,ch12_database" description="Chapter 12 - Serialized (B)LOB">
+	  <java classname="eaa.chapter12.lob.SerializedLOB" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+
+	<target name="ch12_sti"  depends="jar,ch12_database" description="Chapter 12 - Single Table Inheritance">
+	  <java classname="eaa.chapter12.singletableinheritance.SingleTableInheritance" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch12_cti"  depends="jar,ch12_database" description="Chapter 12 - Class Table Inheritance">
+	  <java classname="eaa.chapter12.classtableinheritance.ClassTableInheritance" fork="yes">
+	    <classpath path="${classpath};${jarFile}" />
+	  </java>
+    </target>
+	
+	<target name="ch12_con" depends="jar,ch12_database" description="Chapter 12 - Concrete Table Inheritance">
+		  <java classname="eaa.chapter12.concretetableinheritance.ConcreteTableInheritance" fork="yes">
+		    <classpath path="${classpath};${jarFile}" />
+		  </java>	
+	</target>
+	
+	<target name="ch13_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter13_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch13_mdm" depends="jar,ch13_database" description="Chapter 13 - Metadata Mapping">
+		  <java classname="eaa.chapter13.metadatamapping.MetadataMapping" fork="yes">
+		    <classpath path="${classpath};${jarFile}" />
+		  </java>	
+	</target>
+	
+	<target name="ch13_qo" depends="jar,ch13_database" description="Chapter 13 - Query Object">
+		  <java classname="eaa.chapter13.queryobject.QueryObject" fork="yes">
+		    <classpath path="${classpath};${jarFile}" />
+		  </java>	
+	</target>
+	
+	<target name="ch14_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter14_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch15_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter15_before.sql" />
+      </sql>
+	</target>
+	
+    <taskdef name="apt" classname="com.sun.tools.ws.ant.Apt">
+        <classpath refid="jaxws.classpath"/>
+    </taskdef>
+	
+	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" >
+		<classpath refid="jaxws.classpath"/>
+	</taskdef>
+	
+	<target name="webservices_server">
+        <apt
+                fork="true"
+        		verbose="false"
+                destdir="${destDir}"
+                sourcedestdir="${basedir}/src"
+                sourcepath="${basedir}/src">
+            <classpath>
+                <path refid="jaxws.classpath"/>
+                <pathelement location="${basedir}/src"/>
+            </classpath>
+            <option key="r" value="${basedir}/bin"/>
+            <source dir="${srcDir}">
+                <include name="**/service/*.java"/>
+            </source>
+        </apt>
+        <!-- copy handlers descriptor file -->
+        <copy todir="${destDir}">
+            <fileset dir="${basedir}/src">
+                <include name="**/server/**/*.xml"/>
+            </fileset>
+        </copy>
+	</target>
+	
+	<target name="webservices_client">
+		<wsimport
+			verbose="true"
+			keep="true"
+			destdir="${basedir}/src"
+			wsdl="http://localhost:8080/eaa/person-ws?wsdl"
+			package="eaa.chapter15.client">
+		</wsimport>
+	</target>
+	
+	<target name="deploy_tomcat" depends="compile">
+		<mkdir dir="${deployDir}" />
+		<copy todir="${deployDir}">
+		    <fileset dir="${contextDir}"/>
+		</copy>
+	</target>
+	
+	<target name="ch15_ws_client" depends="jar,ch15_database" description="chapter 15 - web services example">
+		  <java classname="eaa.chapter15.client.Main" fork="yes">
+		  	 <classpath refid="jaxws.classpath" />
+		     <classpath path="${jarFile}" />
+		  </java>
+	</target>
+	
+	<target name="ch16_database">
+	  <sql driver="org.hsqldb.jdbcDriver" password="" url="jdbc:hsqldb:hsql://localhost/xdb" userid="sa" classpath="${classpath}">
+		  	<transaction src="sql/chapter16_before.sql" />
+      </sql>
+	</target>
+	
+	<target name="ch16_ool" depends="jar,ch16_database" description="chapter 16 - Optimistic Offline Lock">
+			<java classname="eaa.chapter16.optimisticlock.Main" fork="yes">
+			  	<classpath path="${classpath};${jarFile}" />
+			</java>
+	</target>
+	
+	<target name="ch16_pol" depends="jar,ch16_database" description="chapter 16 - Pessimistic Offline Lock">
+			<java classname="eaa.chapter16.pessimisticlock.Main" fork="yes">
+			  	<classpath path="${classpath};${jarFile}" />
+			</java>
+	</target>
+		
+	
+</project>
